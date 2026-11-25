@@ -9,9 +9,7 @@ on:
     paths: ["build.py", "template.html", "template-phone.html", ".github/workflows/update-carousel.yml"]
 
 permissions:
-  contents: write   # to commit the refreshed page (keeps the schedule active)
-  pages: write
-  id-token: write
+  contents: write   # to commit the refreshed page. GitHub Pages serves it from the docs folder.
 
 concurrency:
   group: carousel
@@ -20,6 +18,7 @@ concurrency:
 env:
   # ---- Settings: edit these ----
   FEED_URL: "https://pharma.valona.app/api/feeds/521ef091-7f4b-4395-a14f-75773f203ce3"
+  OUTPUT: "docs/index.html"
   ITEM_COUNT: "5"
   AUTOPLAY_SECS: "7"
   # Design: template-phone.html (square phone tile) or template.html (simple card)
@@ -32,11 +31,8 @@ env:
   # CAROUSEL_TITLE: "Latest news"
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deploy.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
 
@@ -51,13 +47,7 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add site/index.html
+          touch docs/.nojekyll
+          git add docs
           git diff --cached --quiet || git commit -m "Daily carousel update"
           git push
-
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: site
-      - id: deploy
-        uses: actions/deploy-pages@v4
