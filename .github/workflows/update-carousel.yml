@@ -1,0 +1,63 @@
+name: Update feed carousel
+
+on:
+  schedule:
+    - cron: "17 5 * * *"   # every day at 05:17 UTC. Change if you like.
+  workflow_dispatch:        # adds a "Run workflow" button for manual updates
+  push:
+    branches: [main]
+    paths: ["build.py", "template.html", "template-phone.html", ".github/workflows/update-carousel.yml"]
+
+permissions:
+  contents: write   # to commit the refreshed page (keeps the schedule active)
+  pages: write
+  id-token: write
+
+concurrency:
+  group: carousel
+  cancel-in-progress: true
+
+env:
+  # ---- Settings: edit these ----
+  FEED_URL: "https://pharma.valona.app/api/feeds/521ef091-7f4b-4395-a14f-75773f203ce3"
+  ITEM_COUNT: "5"
+  AUTOPLAY_SECS: "7"
+  # Design: template-phone.html (square phone tile) or template.html (simple card)
+  TEMPLATE: "template-phone.html"
+  BRAND_HTML: "<i>AH</i>a! Intelligence"
+  BRAND_TAGLINE: "Animal Health AI Intelligence"
+  PANEL_LABEL_HTML: "What's trending<br>in Animal Health"
+  # Leave CAROUSEL_TITLE commented out to use the feed's own title.
+  # Set it to "" to hide the heading.
+  # CAROUSEL_TITLE: "Latest news"
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Build carousel from feed
+        run: python build.py
+
+      - name: Commit refreshed page
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add site/index.html
+          git diff --cached --quiet || git commit -m "Daily carousel update"
+          git push
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      - id: deploy
+        uses: actions/deploy-pages@v4
