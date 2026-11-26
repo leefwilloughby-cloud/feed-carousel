@@ -23,12 +23,10 @@ env:
   AUTOPLAY_SECS: "7"
   # Design: template-phone.html (square phone tile) or template.html (simple card)
   TEMPLATE: "template-phone.html"
-  BRAND_HTML: "<i>AH</i>a! Intelligence"
-  BRAND_TAGLINE: "Animal Health AI Intelligence"
-  PANEL_LABEL_HTML: "What's trending<br>in Animal Health"
-  # Leave CAROUSEL_TITLE commented out to use the feed's own title.
-  # Set it to "" to hide the heading.
-  # CAROUSEL_TITLE: "Latest news"
+  BRAND_HTML: "<b>Pharma</b> Intelligence<span class='pt'>.</span>"
+  BRAND_TAGLINE: "Obesity & T2D market insights"
+  PANEL_LABEL_HTML: "What's trending<br>in Obesity & T2D"
+  CAROUSEL_TITLE: "What's trending in Obesity & T2D"
 
 jobs:
   build:
@@ -51,3 +49,4 @@ jobs:
           git add docs
           git diff --cached --quiet || git commit -m "Daily carousel update"
           git push
+
