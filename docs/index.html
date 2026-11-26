@@ -8,11 +8,13 @@
 <style>
   /* Edit these to restyle */
   :root {
-    --bg: #e5e4dd;
-    --dark: #083328;
-    --green: #02e47c;
-    --text: #0d2a23;
-    --muted: #5b6e68;
+    --bg: #f4f3f2;       /* warm light grey, as the dashboard's link tiles */
+    --dark: #013238;     /* dark teal, as the welcome banner */
+    --accent: #007885;   /* teal, as the dashboard buttons */
+    --highlight: #ffdd31;/* yellow, as the dot in the logo */
+    --lilac: #e0c8fe;    /* lilac, as the banner's orbit dot */
+    --text: #0f2a2e;
+    --muted: #5a6b6e;
     --font: "Segoe UI", system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif;
     /* 1 design unit. The layout is drawn on a 525 x 525 grid and scales to the iframe. */
     --u: calc(min(100vw, 100vh) / 525);
@@ -26,15 +28,16 @@
   /* Header line */
   .brand { position: absolute; left: calc(16 * var(--u)); right: calc(16 * var(--u)); top: calc(12 * var(--u));
     display: flex; align-items: baseline; justify-content: space-between;
-    padding-bottom: calc(7 * var(--u)); border-bottom: calc(1 * var(--u)) solid #8fa59c; }
+    padding-bottom: calc(7 * var(--u)); border-bottom: calc(1 * var(--u)) solid #c9c5c1; }
   .brand .name { font-size: calc(18 * var(--u)); color: var(--dark); letter-spacing: -.01em; }
-  .brand .name i { color: var(--dark); font-weight: 700; }
+  .brand .name b { font-weight: 700; }
+  .brand .name .pt { color: var(--accent); font-weight: 700; }
   .brand .tag { font-size: calc(10.5 * var(--u)); font-style: italic; color: var(--dark); }
 
   /* Phone */
   .phone { position: absolute; left: calc(62 * var(--u)); width: calc(402 * var(--u)); top: calc(55 * var(--u));
     height: calc(560 * var(--u)); background: var(--dark); border-radius: calc(62 * var(--u)); }
-  .btn { position: absolute; width: calc(5 * var(--u)); background: var(--green); border-radius: calc(2 * var(--u)); }
+  .btn { position: absolute; width: calc(5 * var(--u)); background: var(--accent); border-radius: calc(2 * var(--u)); }
   .b1 { left: calc(-3 * var(--u)); top: calc(100 * var(--u)); height: calc(32 * var(--u)); }
   .b2 { left: calc(-3 * var(--u)); top: calc(170 * var(--u)); height: calc(60 * var(--u)); }
   .b3 { left: calc(-3 * var(--u)); top: calc(225 * var(--u)); height: calc(50 * var(--u)); }
@@ -45,15 +48,16 @@
   .notch { position: absolute; left: 50%; transform: translateX(-50%); top: 0; width: calc(182 * var(--u));
     height: calc(28 * var(--u)); background: var(--dark); border-radius: 0 0 calc(22 * var(--u)) calc(22 * var(--u));
     display: flex; align-items: center; justify-content: center; gap: calc(10 * var(--u)); }
-  .notch .pill { width: calc(46 * var(--u)); height: calc(6 * var(--u)); border-radius: 9px; background: var(--green); }
-  .notch .dot { width: calc(8 * var(--u)); height: calc(8 * var(--u)); border-radius: 50%; background: var(--green); }
+  .notch .pill { width: calc(46 * var(--u)); height: calc(6 * var(--u)); border-radius: 9px; background: var(--highlight); }
+  .notch .dot { width: calc(8 * var(--u)); height: calc(8 * var(--u)); border-radius: 50%; background: var(--lilac); }
 
   .inner { position: absolute; left: calc(18 * var(--u)); right: calc(14 * var(--u)); top: calc(40 * var(--u));
     height: calc(398 * var(--u)); display: flex; flex-direction: column; }
 
-  .label { flex: none; height: calc(62 * var(--u)); background: var(--green); border-radius: calc(6 * var(--u));
+  .label { flex: none; height: calc(62 * var(--u)); background: var(--accent); border-radius: calc(6 * var(--u));
     display: flex; align-items: center; gap: calc(14 * var(--u)); padding: 0 calc(14 * var(--u));
-    color: var(--dark); font-size: calc(18 * var(--u)); line-height: 1.2; font-weight: 500; }
+    color: #fff; font-size: calc(18 * var(--u)); line-height: 1.2; font-weight: 500; }
+  .label svg polyline { stroke: var(--highlight); }
   .label svg { flex: none; width: calc(60 * var(--u)); height: calc(36 * var(--u)); }
 
   /* Slides fade in place */
@@ -66,10 +70,10 @@
   .slide h2 { order: 1; margin: 0; font-size: calc(21 * var(--u)); line-height: 1.27; font-weight: 600; color: var(--text);
     display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
   .slide h2 a { color: inherit; text-decoration: none; }
-  .slide h2 a:hover { text-decoration: underline; text-decoration-color: var(--green); text-decoration-thickness: 2px; }
+  .slide h2 a:hover { text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 2px; }
   .slide .meta { order: 2; margin-top: calc(8 * var(--u)); padding-top: calc(8 * var(--u));
     border-top: calc(1 * var(--u)) solid #cfd3d1; font-size: calc(12 * var(--u)); color: var(--muted); }
-  .slide .meta .src { font-weight: 600; color: var(--dark); }
+  .slide .meta .src { font-weight: 600; color: var(--accent); }
   .slide p { order: 3; margin: calc(8 * var(--u)) 0 0; font-size: calc(16.5 * var(--u)); line-height: 1.5; color: #2a3b36;
     display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; }
 
@@ -81,8 +85,8 @@
   .nav:hover { background: #eef1ef; }
   .dots { display: flex; gap: calc(7 * var(--u)); }
   .dot { width: calc(8 * var(--u)); height: calc(8 * var(--u)); padding: 0; border: 0; border-radius: 9px; background: #c8cfcc; cursor: pointer; transition: width .3s; }
-  .dot[aria-current="true"] { background: var(--dark); width: calc(22 * var(--u)); }
-  button:focus-visible, a:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
+  .dot[aria-current="true"] { background: var(--accent); width: calc(22 * var(--u)); }
+  button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
   .updated { display: none; position: absolute; right: calc(8 * var(--u)); bottom: calc(5 * var(--u)); font-size: calc(8 * var(--u)); color: #9aa39f; }
   .empty { color: var(--muted); font-size: calc(15 * var(--u)); }
@@ -161,7 +165,7 @@
       </div>
     </div>
   </div>
-  <div class="updated">Updated 26 Nov 2026, 11:34 UTC</div>
+  <div class="updated">Updated 26 Nov 2026, 11:40 UTC</div>
 </div>
 
 <script>
