@@ -2,7 +2,11 @@ name: Update feed carousel
 
 on:
   schedule:
-    - cron: "17 5 * * *"   # every day at 05:17 UTC. Change if you like.
+    # GitHub often starts scheduled runs late, so there are three daily slots (UTC).
+    # Whichever runs first refreshes the tile. The later ones refresh it again.
+    - cron: "17 5 * * *"    # 05:17 UTC
+    - cron: "47 8 * * *"    # 08:47 UTC (backup)
+    - cron: "47 11 * * *"   # 11:47 UTC (backup)
   workflow_dispatch:        # adds a "Run workflow" button for manual updates
   push:
     branches: [main]
