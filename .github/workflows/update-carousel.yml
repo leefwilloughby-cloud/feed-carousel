@@ -24,6 +24,8 @@ env:
   FEED_URL: "https://pharma.valona.app/api/feeds/521ef091-7f4b-4395-a14f-75773f203ce3"
   OUTPUT: "docs/index.html"
   ITEM_COUNT: "5"
+  # Where headline links open: _top = the whole browser tab, _self = inside the tile, _blank = new tab
+  LINK_TARGET: "_top"
   AUTOPLAY_SECS: "7"
   # Design: template-phone.html (square phone tile) or template.html (simple card)
   TEMPLATE: "template-phone.html"
